@@ -1,0 +1,20 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "globalDependencies": ["**/.env.*local"],
+  "tasks": {
+    "format:check": {},
+    "lint:check": {},
+    "build": {
+      "env": ["PUBLIC_FATHOM_SITE_ID"],
+      "outputs": [".astro/**", "dist/**"]
+    },
+    "dev": {
+      "env": ["PUBLIC_FATHOM_SITE_ID"],
+      "outputs": [".astro/**"],
+      "cache": false
+    },
+    "clean": {
+      "cache": false
+    }
+  }
+}
