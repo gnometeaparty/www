@@ -7,6 +7,7 @@
     "install:hooks": "lefthook install",
     "commit": "commit",
     "wrangler": "wrangler",
+    "type-check": "tsc --noEmit",
     "format:check:prettier": "prettier --check .",
     "format:fix:prettier": "prettier --write .",
     "format:check": "run-s format:check:*",
@@ -21,7 +22,8 @@
     "preview": "astro preview",
     "astro": "astro",
     "clean": "rimraf node_modules dist .turbo .astro",
-    "pre-commit-tasks": "turbo format:check lint:check build"
+    "pre-commit-tasks": "turbo format:check lint:check type-check build",
+    "ci:smoke-test": "turbo format:check lint:check type-check"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
