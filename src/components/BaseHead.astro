@@ -1,0 +1,96 @@
+---
+import "~/styles/global.css";
+import "@fontsource-variable/inter/index.css";
+import { SEO } from "astro-seo";
+import { clientEnv } from "~/client-env";
+
+export interface Props {
+  /**
+   * The title of the page.
+   */
+  title?: string;
+  /**
+   * The description of the page.
+   */
+  description?: string;
+  /**
+   * The canonical URL of the page.
+   */
+  canonicalURL?: string;
+}
+
+const {
+  title,
+  description = "Gnome Tea Party is a group of developers, designers, and entrepreneurs who are passionate about building software.",
+  canonicalURL = new URL(Astro.url.pathname, Astro.site).toString(),
+} = Astro.props;
+
+const makeTitle = title ? `Gnome Tea Party: ${title}` : "Gnome Tea Party";
+---
+
+<!-- Global Metadata -->
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+<!-- Sitemap -->
+<link rel="sitemap" href="/sitemap-index.xml" />
+
+<!-- RSS -->
+<link
+  rel="alternate"
+  type="application/rss+xml"
+  title="Gnome Tea Party Blog"
+  href={new URL("rss.xml", Astro.site)}
+/>
+
+<meta name="generator" content={Astro.generator} />
+
+<!-- Fathom analytics -->
+<script
+  is:inline
+  type="text/partytown"
+  id="fathom-script"
+  src={"https://cdn.usefathom.com/script.js"}
+  data-site={clientEnv.PUBLIC_FATHOM_SITE_ID}
+  data-honor-dnt={true}
+  defer></script>
+
+<!-- Theme Script -->
+<script is:inline>
+  const theme = (() => {
+    if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
+      return localStorage.getItem("theme");
+    }
+    if (
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches
+    ) {
+      return "dark";
+    }
+    return "light";
+  })();
+
+  if (theme === "light") {
+    document.documentElement.classList.remove("dark");
+  } else {
+    document.documentElement.classList.add("dark");
+  }
+
+  window.localStorage.setItem("theme", theme);
+
+  window
+    .matchMedia("(prefers-color-scheme: dark)")
+    .addEventListener("change", (e) => {
+      const newTheme = e.matches ? "dark" : "light";
+      if (newTheme === "dark") {
+        document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+      }
+      window.localStorage.setItem("theme", newTheme);
+    });
+</script>
+
+<!-- SEO -->
+<SEO title={makeTitle} description={description} canonical={canonicalURL} />

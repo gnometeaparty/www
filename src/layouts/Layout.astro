@@ -1,0 +1,27 @@
+---
+import BaseHead from "~/components/BaseHead.astro";
+
+export interface Props {
+  /**
+   * The title of the page.
+   */
+  title?: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={title} />
+  </head>
+  <body>
+    <slot />
+    <style is:global>
+      img {
+        content-visibility: auto;
+      }
+    </style>
+  </body>
+</html>
